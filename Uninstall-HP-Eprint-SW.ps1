@@ -4,7 +4,7 @@ function HPEPrintAppSetupInstalled {
     $path
 }
 function UninstallHPEPrintAppSetupInstalled {
-    Start-Process $path.FullName -ArgumentList "/uninstall /quiet"
+    Start-Process HPEPrintAppSetupInstalled.FullName -ArgumentList "/uninstall /quiet"
 } 
 
 
