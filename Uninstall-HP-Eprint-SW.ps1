@@ -1,7 +1,7 @@
 
 function HPEPrintAppSetupInstalled {
     HPEPrintAppSetupInstalled = $null
-    return Get-ChildItem -Path "C:\ProgramData\Package Cache\" -Recurse -Filter "HPEPrintAppSetup.exe" | Select-Object -ExpandProperty FullNamehp
+    return Get-ChildItem -Path "C:\ProgramData\Package Cache\" -Recurse -Filter "HPEPrintAppSetup.exe" | Select-Object -ExpandProperty FullName
 }
 function UninstallHPEPrintAppSetupInstalled {
     UninstallHPEPrintAppSetupInstalled = $null
