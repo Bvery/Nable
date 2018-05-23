@@ -1,16 +1,8 @@
-
-function HPEPrintAppSetupInstalled {
-    HPEPrintAppSetupInstalled = $null
-    return Get-ChildItem -Path "C:\ProgramData\Package Cache\" -Recurse -Filter "HPEPrintAppSetup.exe" | Select-Object -First 1 | Select-Object -ExpandProperty FullName
-}
-function UninstallHPEPrintAppSetupInstalled {
-    HPEPrintAppSetupInstalled "/uninstall /quiet"
-} 
-
-$path = HPEPrintAppSetupInstalled
+$path = $null
+$path = Get-ChildItem -Path "C:\ProgramData\Package Cache\" -Recurse -Filter "HPEPrintAppSetup.exe" | Select-Object -First 1 | Select-Object -ExpandProperty FullName
 if($path -ne $null){
     Write-Host "HPEPrintAppSetup.exe found in" $path
-    UninstallHPEPrintAppSetupInstalled
+    Start-Process $path -ArgumentList "/quiet /uninstall"
     Start-Sleep -Seconds 5
     if(Test-Path $path) {
         Write-Host "HP e-Print failed"
