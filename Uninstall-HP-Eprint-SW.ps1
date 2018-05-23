@@ -5,7 +5,7 @@ if($path -ne $null){
     Start-Process $path -ArgumentList "/quiet /uninstall"
     Start-Sleep -Seconds 5
     if(Test-Path $path) {
-        Write-Host "HP e-Print failed"
+        Write-Host "HP e-Print uninstall failed"
         exit 1
     } else {
         Write-Host "HP e-Print removed sucessvol"
