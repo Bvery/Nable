@@ -26,9 +26,6 @@ if (Test-Path $DownloadPath) {
 Write-Host "Start uninstall"
 
 Start-Process $DownloadPath -ArgumentList "/quiet /uninstall" -Wait
-Write-Host "start sleep 30 sec"
-Start-Sleep -Seconds 30
-Write-Host "End sleep"
 $32bit = $null
 $32bit = get-itemproperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Select-Object DisplayName, DisplayVersion, UninstallString, PSChildName | Where-Object { $_.DisplayName -match "HP ePrint SW"}
 if($32bit -eq $null) {
