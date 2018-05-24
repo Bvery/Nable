@@ -31,12 +31,12 @@ Write-Host "32bit"
 foreach ($item in $32bit) {
     Write-Host $item
     if ($item.UninstallString -like "*C:\ProgramData\Package Cache\") {
-        Write-Host "New uninstall string"
-        $CmdCommand = $item.UninstallString
+        $CmdCommand = $item.UninstallString + " /quiet"
+        Write-Host $CmdCommand
         cmd /C $CmdCommand
     } else {
-        Write-Host $item
-        $CmdCommand = "MsiExec.exe /X" + $item.PSChildName 
+        $CmdCommand = "MsiExec.exe /X" + $item.PSChildName + " /quiet"
+        Write-Host $CmdCommand
         cmd /C $CmdCommand
     }
 }
@@ -45,12 +45,12 @@ Write-Host "64bit"
 foreach ($item in $64bit) {
     Write-Host $item
     if ($item.UninstallString -like "*C:\ProgramData\Package Cache\*") {
-        Write-Host "New uninstall string"
         $CmdCommand = $item.UninstallString + " /quiet"
+        Write-Host $CmdCommand
         cmd /C $CmdCommand
-    } else {
-        Write-Host $item
+    } else {        
         $CmdCommand = "MsiExec.exe /X" + $item.PSChildName + " /quiet"
+        Write-Host $CmdCommand
         cmd /C $CmdCommand
     }
 }
