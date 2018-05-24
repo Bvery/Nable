@@ -2,7 +2,7 @@
 $SoftwareName = 'HP ePrint SW'
 
 #$SourceInput = 'https://github.com/DividedCode/Nable/blob/master/Software%20Resp/HPEPrintAppSetup.exe?raw=true'
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+#[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 #check installed-----------
 $32bit = $null
