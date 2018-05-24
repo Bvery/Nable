@@ -1,15 +1,37 @@
-$path = $null
-$path = Get-ChildItem -Path "C:\ProgramData\Package Cache\" -Recurse -Filter "HPEPrintAppSetup.exe" | Select-Object -First 1 | Select-Object -ExpandProperty FullName
-if($path -ne $null){
-    Write-Host "HPEPrintAppSetup.exe found in" $path
-    Start-Process $path -ArgumentList "/quiet /uninstall"
-    Start-Sleep -Seconds 10
-    if(Test-Path $path) {
-        Write-Host "HP e-Print uninstall failed"
-        exit 1
-    } else {
-        Write-Host "HP e-Print removed sucessvol"
-    }
+$DownloadPath = 'C:\temp\HPEPrintAppSetup.exe'
+$SoftwareName = 'HP ePrint SW'
+
+$SourceInput = 'https://github.com/DividedCode/Nable/blob/master/Software%20Resp/HPEPrintAppSetup.exe?raw=true'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+#check installed-----------
+$32bit = $null
+$32bit = get-itemproperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Select-Object DisplayName, DisplayVersion, UninstallString, PSChildName | Where-Object { $_.DisplayName -match "HP ePrint SW"}
+if ($32bit -eq $null) {
+    Write-Host $SoftwareName not installed ([System.Net.DNS]::GetHostByName('').HostName)
+    exit 0
 } else {
-    Write-Host Software not found on ([System.Net.DNS]::GetHostByName('').HostName)
+    Write-Host $SoftwareName found on ([System.Net.DNS]::GetHostByName('').HostName)
 }
+
+#Download-----------
+if (Test-Path $DownloadPath) {
+    Write-Host "$DownloadPath already present"
+} else {    
+    (New-Object System.Net.WebClient).DownloadFile($SourceInput, $DownloadPath)
+}
+
+
+Write-Host "Start uninstall"
+
+Start-Process $DownloadPath -ArgumentList "/quiet /uninstall" -Wait
+$32bit = get-itemproperty 'HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*' | Select-Object DisplayName, DisplayVersion, UninstallString, PSChildName | Where-Object { $_.DisplayName -match "HP ePrint SW"}
+if($32bit -eq $null) {
+    Write-Host "HP e-Print removed sucessvol"
+} else {
+    Write-Host "HP e-Print uninstall failed"
+    exit 1
+}
+
+
+                                                                                                                                                                                                                                                                                                                                              
