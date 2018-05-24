@@ -18,6 +18,7 @@ if ($32bit -eq $null) {
 if (Test-Path $DownloadPath) {
     Write-Host "$DownloadPath already present"
 } else {    
+    Write-Host "Start downloading files"
     (New-Object System.Net.WebClient).DownloadFile($SourceInput, $DownloadPath)
 }
 
